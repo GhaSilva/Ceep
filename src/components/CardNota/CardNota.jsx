@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import "./estilo.css"
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "./estilo.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class CardNota extends Component {
   render() {
