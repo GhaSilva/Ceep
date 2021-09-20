@@ -16,7 +16,7 @@ class FormularioCadastro extends Component {
           rows="3"
           placeholder="Escreva sua nota"
         />
-        <button type="button" className="btn btn-dark mt-3 mb-3">
+        <button type="submit" className="btn btn-dark mt-3 mb-3">
           Criar Nota
         </button>
       </form>
