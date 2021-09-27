@@ -1,57 +1,78 @@
 import React, { Component } from "react";
-
+import "./estilo.css";
 class FormularioCadastro extends Component {
   constructor(props) {
     super(props);
-    this.titulo = " ";
-    this.texto = " ";
+    this.titulo = "";
+    this.texto = "";
     this.categoria = "Sem Categoria";
-  }
-  _handlerMudancaDeCategoria(evento){
-    evento.stopPropagation();
-    this.categoria = evento.target.value
+    this.state = {categorias:[]}
+
+    this._novasCategorias = this._novasCategorias.bind(this);
   }
 
-  _handlerMudancaDeTitulo(evento) {
+  componentDidMount(){
+    this.props.categorias.inscrever( this._novasCategorias);
+    
+  }
+
+  componentWillUnmount(){
+    this.props.categorias.desinscrever( this._novasCategorias);
+  }
+  _novasCategorias(categorias){
+    this.setState({...this.state, categorias})
+  }
+  _handleMudancaCategoria(evento){
+    evento.stopPropagation();
+    this.categoria = evento.target.value;
+  }
+  _handleMudancaTitulo(evento) {
+    evento.stopPropagation();
     this.titulo = evento.target.value;
   }
-  _handlerMudancaDeTexto(evento) {
+
+  _handleMudancaTexto(evento) {
+    evento.stopPropagation();
     this.texto = evento.target.value;
   }
+
   _criarNota(evento) {
     evento.preventDefault();
     evento.stopPropagation();
     this.props.criarNota(this.titulo, this.texto, this.categoria);
   }
+
   render() {
     return (
-      <form onSubmit={this._criarNota.bind(this)}>
-        <select onChange={this._handlerMudancaDeCategoria.bind(this)} className=" mb-3 mt-3 col-3" placeholder="Selecione">
+      <form className="form-cadastro" onSubmit={this._criarNota.bind(this)}>
+        <select
+          onChange={this._handleMudancaCategoria.bind(this)}
+          className="form-cadastro_input"
+        >
           <option>Sem Categoria</option>
-          {this.props.categorias.map((categoria, index) => {
-            return <option key={index}>{categoria}</option>;
+
+          {this.state.categorias.map((categoria, index) => {
+            return <option key={index} >{categoria}</option>;
           })}
         </select>
-
         <input
-          className="form-control mb-3"
-          id="exampleFormControlInput1"
           type="text"
           placeholder="Título"
-          onChange={this._handlerMudancaDeTitulo.bind(this)}
+          className="form-cadastro_input"
+          onChange={this._handleMudancaTitulo.bind(this)}
         />
         <textarea
-          className="form-control"
-          id="exampleFormControlTextarea1"
-          rows="3"
-          placeholder="Escreva sua nota"
-          onChange={this._handlerMudancaDeTexto.bind(this)}
+          rows={15}
+          placeholder="Escreva sua nota..."
+          className="form-cadastro_input"
+          onChange={this._handleMudancaTexto.bind(this)}
         />
-        <button type="submit" className="btn btn-dark mt-3 mb-3">
+        <button className="form-cadastro_input form-cadastro_submit">
           Criar Nota
         </button>
       </form>
     );
   }
 }
+
 export default FormularioCadastro;
